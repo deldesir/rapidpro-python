@@ -57,14 +57,13 @@ class Boundary(TembaObject):
 
 
 class Broadcast(TembaObject):
-    id = IntegerField()
+    uuid = SimpleField()
     status = SimpleField()
     urns = SimpleField()
     contacts = ObjectListField(item_class=ObjectRef)
     groups = ObjectListField(item_class=ObjectRef)
     text = SimpleField()
     created_on = DatetimeField()
-
 
 class Campaign(TembaObject):
     uuid = SimpleField()
@@ -207,8 +206,7 @@ class Message(TembaObject):
         content_type = SimpleField()
         url = SimpleField()
 
-    id = IntegerField()
-    broadcast = IntegerField()
+    uuid = SimpleField()
     contact = ObjectField(item_class=ObjectRef)
     urn = SimpleField()
     channel = ObjectField(item_class=ObjectRef)

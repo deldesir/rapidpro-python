@@ -3,8 +3,7 @@
     "previous": null,
     "results": [
         {
-            "id": 4105423,
-            "broadcast": 2690006,
+            "uuid": "eb6aeae0-0433-45de-bbed-031039a1cfaa",
             "contact": {
                 "uuid": "d33e9ad5-5c35-414c-abd4-e7451c69ff1d",
                 "name": "Frank McFlow"
@@ -30,8 +29,7 @@
             "modified_on": null
         },
         {
-            "id": 4088573,
-            "broadcast": null,
+            "uuid": "a0502d1b-3ea7-40e7-838e-16d55d0574f8",
             "contact": {
                 "uuid": "d33e9ad5-5c35-414c-abd4-e7451c69ff1d",
                 "name": "Frank McFlow"

@@ -245,7 +245,7 @@ class TembaClientTest(TembaTest):
         self.assertRequest(mock_request, "get", "broadcasts")
         self.assertEqual(len(results), 2)
 
-        self.assertEqual(results[0].id, 1234)
+        self.assertEqual(results[0].uuid, "c4f3b6e1-2d3a-4f4b-8f4e-1e2d3c4b5a6f")
         self.assertEqual(results[0].urns, ["tel:+250783865665", "twitter:bobby"])
         self.assertEqual(len(results[0].contacts), 1)
         self.assertEqual(results[0].contacts[0].uuid, "5079cb96-a1d8-4f47-8c87-d8c7bb6ddab9")
@@ -258,7 +258,7 @@ class TembaClientTest(TembaTest):
 
         # check with all params
         self.client.get_broadcasts(
-            id=12345,
+            uuid="c4f3b6e1-2d3a-4f4b-8f4e-1e2d3c4b5a6f",
             after=datetime(2014, 12, 12, 22, 34, 36, 978123, tzone.utc),
             before=datetime(2014, 12, 12, 22, 56, 58, 917123, tzone.utc),
         ).all()
@@ -267,7 +267,7 @@ class TembaClientTest(TembaTest):
             mock_request,
             "get",
             "broadcasts",
-            params={"id": 12345, "after": "2014-12-12T22:34:36.978123Z", "before": "2014-12-12T22:56:58.917123Z"},
+            params={"uuid": "c4f3b6e1-2d3a-4f4b-8f4e-1e2d3c4b5a6f", "after": "2014-12-12T22:34:36.978123Z", "before": "2014-12-12T22:56:58.917123Z"},
         )
 
     def test_get_campaigns(self, mock_request):
@@ -601,8 +601,7 @@ class TembaClientTest(TembaTest):
         self.assertRequest(mock_request, "get", "messages")
         self.assertEqual(len(results), 2)
 
-        self.assertEqual(results[0].id, 4105423)
-        self.assertEqual(results[0].broadcast, 2690006)
+        self.assertEqual(results[0].uuid, "eb6aeae0-0433-45de-bbed-031039a1cfaa")
         self.assertEqual(results[0].contact.uuid, "d33e9ad5-5c35-414c-abd4-e7451c69ff1d")
         self.assertEqual(results[0].contact.name, "Frank McFlow")
         self.assertEqual(results[0].urn, "twitter:franky6431")
@@ -629,7 +628,7 @@ class TembaClientTest(TembaTest):
 
         # check with all params
         self.client.get_messages(
-            id=123456,
+            uuid="eb6aeae0-0433-45de-bbed-031039a1cfaa",
             folder="inbox",
             after=datetime(2014, 12, 12, 22, 34, 36, 978123, tzone.utc),
             before=datetime(2014, 12, 12, 22, 56, 58, 917123, tzone.utc),
@@ -640,7 +639,7 @@ class TembaClientTest(TembaTest):
             "get",
             "messages",
             params={
-                "id": 123456,
+                "uuid": "eb6aeae0-0433-45de-bbed-031039a1cfaa",
                 "folder": "inbox",
                 "after": "2014-12-12T22:34:36.978123Z",
                 "before": "2014-12-12T22:56:58.917123Z",
@@ -812,7 +811,7 @@ class TembaClientTest(TembaTest):
                 "groups": ["04a4752b-0f49-480e-ae60-3a3f2bea485c"],
             },
         )
-        self.assertEqual(broadcast.id, 1234)
+        self.assertEqual(broadcast.uuid, "c4f3b6e1-2d3a-4f4b-8f4e-1e2d3c4b5a6f")
 
     def test_create_campaign(self, mock_request):
         mock_request.return_value = MockResponse(201, self.read_json("campaigns", extract_result=0))
@@ -937,7 +936,7 @@ class TembaClientTest(TembaTest):
             "messages",
             data={"contact": "5079cb96-a1d8-4f47-8c87-d8c7bb6ddab9", "text": "Hi there", "attachments": []},
         )
-        self.assertEqual(message.id, 4105423)
+        self.assertEqual(message.uuid, "eb6aeae0-0433-45de-bbed-031039a1cfaa")
 
     def test_create_resthook_subscriber(self, mock_request):
         subscriber_json = self.read_json("resthook_subscribers", extract_result=0)
@@ -1244,8 +1243,8 @@ class TembaClientTest(TembaTest):
     def test_message_actions(self, mock_request):
         mock_request.return_value = MockResponse(204, "")
 
-        messages = [Message.create(id=1001), 1002]
-        resolved_messages = [1001, 1002]
+        messages = [Message.create(uuid="eb6aeae0-0433-45de-bbed-031039a1cfaa"), "2be38dc4-b3ae-4fdf-a3b6-7defb3c11c4c"]
+        resolved_messages = ["eb6aeae0-0433-45de-bbed-031039a1cfaa", "2be38dc4-b3ae-4fdf-a3b6-7defb3c11c4c"]
 
         self.client.bulk_label_messages(messages=messages, label="Testing", label_name="Spam")
         self.assertRequest(
