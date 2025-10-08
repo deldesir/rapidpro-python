@@ -60,15 +60,15 @@ class TembaClient(BaseCursorClient):
         params = self._build_params(geometry=geometry)
         return self._get_query("boundaries", params, Boundary)
 
-    def get_broadcasts(self, id=None, before=None, after=None):
+    def get_broadcasts(self, uuid=None, before=None, after=None):
         """
         Gets all matching broadcasts
-        :param id: broadcast id
+        :param uuid: broadcast UUID
         :param datetime before: created before
         :param datetime after: created after
         :return: broadcast query
         """
-        params = self._build_params(id=id, before=before, after=after)
+        params = self._build_params(uuid=uuid, before=before, after=after)
         return self._get_query("broadcasts", params, Broadcast)
 
     def get_campaigns(self, uuid=None):
@@ -186,16 +186,16 @@ class TembaClient(BaseCursorClient):
         """
         return self._get_query("labels", self._build_params(uuid=uuid, name=name), Label)
 
-    def get_messages(self, id=None, folder=None, before=None, after=None):
+    def get_messages(self, uuid=None, folder=None, before=None, after=None):
         """
         Gets all matching messages
-        :param id: message id
+        :param uuid: message UUID
         :param folder: folder name
         :param datetime before: created before
         :param datetime after: created after
         :return: message query
         """
-        params = self._build_params(id=id, folder=folder, before=before, after=after)
+        params = self._build_params(uuid=uuid, folder=folder, before=before, after=after)
         return self._get_query("messages", params, Message)
 
     def get_org(self, retry_on_rate_exceed=False):
