@@ -1,3 +1,7 @@
+v2.20.0 (2025-10-08)
+-------------------------
+ * Remove support for filtering runs by a single contact
+
 v2.19.0 (2025-10-08)
 -------------------------
  * Use UUID for messages and broadcasts instead of ID
