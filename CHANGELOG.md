@@ -1,3 +1,7 @@
+v2.19.0 (2025-10-08)
+-------------------------
+ * Use UUID for messages and broadcasts instead of ID
+
 v2.18.2 (2025-06-10)
 -------------------------
  * Merge pull request #108 from rapidpro/dependabot/pip/requests-2.32.4
