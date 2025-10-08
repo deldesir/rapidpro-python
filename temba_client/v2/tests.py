@@ -756,7 +756,6 @@ class TembaClientTest(TembaTest):
         self.client.get_runs(
             uuid="3494603e-4ed9-488d-a846-bb2babf88078",
             flow="ffce0fbb-4fe1-4052-b26a-91beb2ebae9a",
-            contact="d33e9ad5-5c35-414c-abd4-e7451c69ff1d",
             responded=True,
             after=datetime(2014, 12, 12, 22, 34, 36, 978123, tzone.utc),
             before=datetime(2014, 12, 12, 22, 56, 58, 917123, tzone.utc),
@@ -771,7 +770,6 @@ class TembaClientTest(TembaTest):
             params={
                 "uuid": "3494603e-4ed9-488d-a846-bb2babf88078",
                 "flow": "ffce0fbb-4fe1-4052-b26a-91beb2ebae9a",
-                "contact": "d33e9ad5-5c35-414c-abd4-e7451c69ff1d",
                 "responded": True,
                 "after": "2014-12-12T22:34:36.978123Z",
                 "before": "2014-12-12T22:56:58.917123Z",
