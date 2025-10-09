@@ -100,14 +100,14 @@ class BooleanField(SimpleField):
 
 class IntegerField(SimpleField):
     def deserialize(self, value):
-        if value is not None and type(value) != int:
+        if value is not None and not isinstance(value, int):
             raise TembaSerializationException("Value '%s' field is not an integer" % str(value))
         return value
 
 
 class ListField(SimpleField):
     def deserialize(self, value):
-        if value is not None and type(value) != list:
+        if value is not None and not isinstance(value, list):
             raise TembaSerializationException("Value '%s' field is not a list" % str(value))
         return value
 
