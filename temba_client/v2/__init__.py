@@ -166,7 +166,7 @@ class TembaClient(BaseCursorClient):
     def get_globals(self, key=None):
         """
         Gets all globals
-        :param key: field key
+        :param str key: field key
         :return: global query
         """
         return self._get_query("globals", self._build_params(key=key), Global)
