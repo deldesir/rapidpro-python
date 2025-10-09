@@ -1,3 +1,9 @@
+v2.21.0 (2025-10-09)
+-------------------------
+ * Add support for message quick replies
+ * Allow filtering by type and archived in get_flows
+ * Allow filtering by key in get_globals
+
 v2.20.0 (2025-10-08)
 -------------------------
  * Remove support for filtering runs by a single contact
