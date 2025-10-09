@@ -64,7 +64,7 @@ class TembaTest(unittest.TestCase):
                 "User-Agent": "test/0.1 rapidpro-python/%s" % CLIENT_VERSION,
             },
             verify=None,
-            **kwargs
+            **kwargs,
         )
         mock.reset_mock()
 

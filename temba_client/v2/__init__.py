@@ -145,13 +145,15 @@ class TembaClient(BaseCursorClient):
         """
         return self._get_query("fields", self._build_params(key=key), Field)
 
-    def get_flows(self, uuid=None):
+    def get_flows(self, uuid=None, type=None, archived=None):
         """
         Gets all matching flows
         :param uuid: flow UUID
+        :param str type: "message" or "voice"
+        :param bool archived: whether to include archived flows
         :return: flow query
         """
-        return self._get_query("flows", self._build_params(uuid=uuid), Flow)
+        return self._get_query("flows", self._build_params(uuid=uuid, type=type, archived=archived), Flow)
 
     def get_flow_starts(self, uuid=None):
         """
@@ -161,12 +163,13 @@ class TembaClient(BaseCursorClient):
         """
         return self._get_query("flow_starts", self._build_params(uuid=uuid), FlowStart)
 
-    def get_globals(self):
+    def get_globals(self, key=None):
         """
         Gets all globals
+        :param str key: field key
         :return: global query
         """
-        return self._get_query("globals", {}, Global)
+        return self._get_query("globals", self._build_params(key=key), Global)
 
     def get_groups(self, uuid=None, name=None):
         """
@@ -232,9 +235,7 @@ class TembaClient(BaseCursorClient):
         params = self._build_params(id=id, resthook=resthook)
         return self._get_query("resthook_subscribers", params, ResthookSubscriber)
 
-    def get_runs(
-        self, uuid=None, flow=None, responded=None, before=None, after=None, reverse=None, paths=None
-    ):
+    def get_runs(self, uuid=None, flow=None, responded=None, before=None, after=None, reverse=None, paths=None):
         """
         Gets all matching flow runs
         :param uuid: flow run UUID
@@ -293,7 +294,7 @@ class TembaClient(BaseCursorClient):
         :param int delivery_hour:
         :param str message:
         :param * flow: flow object, UUID or name
-        :return: the new campaign
+        :return: the new campaign event
         """
         payload = self._build_params(
             campaign=campaign,
@@ -379,16 +380,21 @@ class TembaClient(BaseCursorClient):
         """
         return Label.deserialize(self._post("labels", None, self._build_params(name=name)))
 
-    def create_message(self, contact, text, attachments):
+    def create_message(self, contact, text, attachments, quick_replies=[]):
         """
         Creates a new outgoing message
         :param str contact: contact UUID
         :param str text: message text
         :param list[str] attachments: message attachments
+        :param list[dict] quick_replies: message quick replies
         :return: the new message
         """
         return Message.deserialize(
-            self._post("messages", None, self._build_params(contact=contact, text=text, attachments=attachments))
+            self._post(
+                "messages",
+                None,
+                self._build_params(contact=contact, text=text, attachments=attachments, quick_replies=quick_replies),
+            )
         )
 
     def create_resthook_subscriber(self, resthook, target_url):

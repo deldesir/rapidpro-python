@@ -267,7 +267,11 @@ class TembaClientTest(TembaTest):
             mock_request,
             "get",
             "broadcasts",
-            params={"uuid": "c4f3b6e1-2d3a-4f4b-8f4e-1e2d3c4b5a6f", "after": "2014-12-12T22:34:36.978123Z", "before": "2014-12-12T22:56:58.917123Z"},
+            params={
+                "uuid": "c4f3b6e1-2d3a-4f4b-8f4e-1e2d3c4b5a6f",
+                "after": "2014-12-12T22:34:36.978123Z",
+                "before": "2014-12-12T22:56:58.917123Z",
+            },
         )
 
     def test_get_campaigns(self, mock_request):
@@ -498,10 +502,30 @@ class TembaClientTest(TembaTest):
             ["2bfbd76a-245a-473c-a296-28e4815f3a98", "d8b0ed18-a5c2-48be-98af-9b7f017fdc6c"],
         )
 
-        # check with all params
+        # check with uuid param
         self.client.get_flows(uuid="ffce0fbb-4fe1-4052-b26a-91beb2ebae9a").all()
 
         self.assertRequest(mock_request, "get", "flows", params={"uuid": "ffce0fbb-4fe1-4052-b26a-91beb2ebae9a"})
+
+        # check with type param
+        self.client.get_flows(type="message").all()
+
+        self.assertRequest(mock_request, "get", "flows", params={"type": "message"})
+
+        # check with archived param
+        self.client.get_flows(archived=True).all()
+
+        self.assertRequest(mock_request, "get", "flows", params={"archived": True})
+
+        # check with all param
+        self.client.get_flows(uuid="ffce0fbb-4fe1-4052-b26a-91beb2ebae9a", type="message", archived=False).all()
+
+        self.assertRequest(
+            mock_request,
+            "get",
+            "flows",
+            params={"uuid": "ffce0fbb-4fe1-4052-b26a-91beb2ebae9a", "type": "message", "archived": False},
+        )
 
     def test_get_flow_starts(self, mock_request):
         # check no params
@@ -547,6 +571,11 @@ class TembaClientTest(TembaTest):
         self.assertEqual(results[0].name, "Org Name")
         self.assertEqual(results[0].value, "Acme Ltd")
         self.assertEqual(results[0].modified_on, datetime(2015, 6, 8, 12, 18, 7, 671000, tzone.utc))
+
+        # check with all params
+        self.client.get_globals(key="org_name").all()
+
+        self.assertRequest(mock_request, "get", "globals", params={"key": "org_name"})
 
     def test_get_groups(self, mock_request):
         # check no params
@@ -625,6 +654,11 @@ class TembaClientTest(TembaTest):
 
         self.assertEqual(results[1].attachments[0].content_type, "audio/wav")
         self.assertEqual(results[1].attachments[0].url, "http://domain.com/recording.wav")
+
+        self.assertEqual(results[1].quick_replies[0].text, "Red")
+        self.assertEqual(results[1].quick_replies[1].text, "Green")
+        self.assertEqual(results[1].quick_replies[1].extra, "Like grass")
+        self.assertEqual(results[1].quick_replies[2].text, "Blue")
 
         # check with all params
         self.client.get_messages(
@@ -932,9 +966,33 @@ class TembaClientTest(TembaTest):
             mock_request,
             "post",
             "messages",
-            data={"contact": "5079cb96-a1d8-4f47-8c87-d8c7bb6ddab9", "text": "Hi there", "attachments": []},
+            data={
+                "contact": "5079cb96-a1d8-4f47-8c87-d8c7bb6ddab9",
+                "text": "Hi there",
+                "attachments": [],
+                "quick_replies": [],
+            },
         )
         self.assertEqual(message.uuid, "eb6aeae0-0433-45de-bbed-031039a1cfaa")
+
+        message = self.client.create_message(
+            contact="5079cb96-a1d8-4f47-8c87-d8c7bb6ddab9",
+            text="Hi there",
+            attachments=[],
+            quick_replies=[{"text": "Blue"}, {"text": "Green", "extra": "Like grass"}],
+        )
+
+        self.assertRequest(
+            mock_request,
+            "post",
+            "messages",
+            data={
+                "contact": "5079cb96-a1d8-4f47-8c87-d8c7bb6ddab9",
+                "text": "Hi there",
+                "attachments": [],
+                "quick_replies": [{"text": "Blue"}, {"text": "Green", "extra": "Like grass"}],
+            },
+        )
 
     def test_create_resthook_subscriber(self, mock_request):
         subscriber_json = self.read_json("resthook_subscribers", extract_result=0)
@@ -1241,7 +1299,10 @@ class TembaClientTest(TembaTest):
     def test_message_actions(self, mock_request):
         mock_request.return_value = MockResponse(204, "")
 
-        messages = [Message.create(uuid="eb6aeae0-0433-45de-bbed-031039a1cfaa"), "2be38dc4-b3ae-4fdf-a3b6-7defb3c11c4c"]
+        messages = [
+            Message.create(uuid="eb6aeae0-0433-45de-bbed-031039a1cfaa"),
+            "2be38dc4-b3ae-4fdf-a3b6-7defb3c11c4c",
+        ]
         resolved_messages = ["eb6aeae0-0433-45de-bbed-031039a1cfaa", "2be38dc4-b3ae-4fdf-a3b6-7defb3c11c4c"]
 
         self.client.bulk_label_messages(messages=messages, label="Testing", label_name="Spam")
