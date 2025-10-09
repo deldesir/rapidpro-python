@@ -65,6 +65,7 @@ class Broadcast(TembaObject):
     text = SimpleField()
     created_on = DatetimeField()
 
+
 class Campaign(TembaObject):
     uuid = SimpleField()
     name = SimpleField()
@@ -93,11 +94,10 @@ class Channel(TembaObject):
         power_source = SimpleField()
         network_type = SimpleField()
 
-
     uuid = SimpleField()
     name = SimpleField()
     address = SimpleField()
-    type=SimpleField()
+    type = SimpleField()
     country = SimpleField()
     device = ObjectField(item_class=Device)
     last_seen = DatetimeField()
@@ -133,6 +133,7 @@ class Export(TembaObject):
     triggers = ListField()
     fields = ListField()
     groups = ListField()
+
 
 class Field(TembaObject):
     key = SimpleField()
@@ -206,6 +207,10 @@ class Message(TembaObject):
         content_type = SimpleField()
         url = SimpleField()
 
+    class QuickReply(TembaObject):
+        text = SimpleField()
+        extra = SimpleField()
+
     uuid = SimpleField()
     contact = ObjectField(item_class=ObjectRef)
     urn = SimpleField()
@@ -217,6 +222,7 @@ class Message(TembaObject):
     text = SimpleField()
     labels = ObjectListField(item_class=ObjectRef)
     attachments = ObjectListField(item_class=AttachmentRef)
+    quick_replies = ObjectListField(item_class=QuickReply)
     flow = ObjectField(item_class=ObjectRef)
     created_on = DatetimeField()
     sent_on = DatetimeField()

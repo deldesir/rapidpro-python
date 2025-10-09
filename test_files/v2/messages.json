@@ -20,6 +20,7 @@
             "text": "How are you?",
             "labels": [],
             "attachments": [],
+            "quick_replies": [],
             "flow": {
                 "uuid": "6ca413c7-bc3a-42cb-9744-6938f791bc36",
                 "name": "Registration"
@@ -53,6 +54,7 @@
                     "url": "http://domain.com/recording.wav"
                 }
             ],
+            "quick_replies": [{"text": "Red"}, {"text": "Green", "extra": "Like grass"}, {"text": "Blue"}],
             "flow": null,
             "created_on": "2015-11-10T12:59:10+00:00",
             "sent_on": null,

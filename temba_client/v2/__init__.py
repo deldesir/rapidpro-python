@@ -235,9 +235,7 @@ class TembaClient(BaseCursorClient):
         params = self._build_params(id=id, resthook=resthook)
         return self._get_query("resthook_subscribers", params, ResthookSubscriber)
 
-    def get_runs(
-        self, uuid=None, flow=None, responded=None, before=None, after=None, reverse=None, paths=None
-    ):
+    def get_runs(self, uuid=None, flow=None, responded=None, before=None, after=None, reverse=None, paths=None):
         """
         Gets all matching flow runs
         :param uuid: flow run UUID
@@ -382,16 +380,21 @@ class TembaClient(BaseCursorClient):
         """
         return Label.deserialize(self._post("labels", None, self._build_params(name=name)))
 
-    def create_message(self, contact, text, attachments):
+    def create_message(self, contact, text, attachments, quick_replies=[]):
         """
         Creates a new outgoing message
         :param str contact: contact UUID
         :param str text: message text
         :param list[str] attachments: message attachments
+        :param list[dict] quick_replies: message quick replies
         :return: the new message
         """
         return Message.deserialize(
-            self._post("messages", None, self._build_params(contact=contact, text=text, attachments=attachments))
+            self._post(
+                "messages",
+                None,
+                self._build_params(contact=contact, text=text, attachments=attachments, quick_replies=quick_replies),
+            )
         )
 
     def create_resthook_subscriber(self, resthook, target_url):
