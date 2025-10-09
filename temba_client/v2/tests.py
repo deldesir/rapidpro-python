@@ -498,10 +498,26 @@ class TembaClientTest(TembaTest):
             ["2bfbd76a-245a-473c-a296-28e4815f3a98", "d8b0ed18-a5c2-48be-98af-9b7f017fdc6c"],
         )
 
-        # check with all params
+        # check with uuid param
         self.client.get_flows(uuid="ffce0fbb-4fe1-4052-b26a-91beb2ebae9a").all()
 
         self.assertRequest(mock_request, "get", "flows", params={"uuid": "ffce0fbb-4fe1-4052-b26a-91beb2ebae9a"})
+
+        # check with type param
+        self.client.get_flows(type="message").all()
+
+        self.assertRequest(mock_request, "get", "flows", params={"type": "message"})
+
+        # check with archived param
+        self.client.get_flows(archived=True).all()
+
+        self.assertRequest(mock_request, "get", "flows", params={"archived": True})
+
+        # check with all param
+        self.client.get_flows(uuid="ffce0fbb-4fe1-4052-b26a-91beb2ebae9a", type="message", archived=False).all()
+
+        self.assertRequest(mock_request, "get", "flows", params={"uuid": "ffce0fbb-4fe1-4052-b26a-91beb2ebae9a", "type": "message", "archived": False})
+
 
     def test_get_flow_starts(self, mock_request):
         # check no params
@@ -547,6 +563,11 @@ class TembaClientTest(TembaTest):
         self.assertEqual(results[0].name, "Org Name")
         self.assertEqual(results[0].value, "Acme Ltd")
         self.assertEqual(results[0].modified_on, datetime(2015, 6, 8, 12, 18, 7, 671000, tzone.utc))
+
+         # check with all params
+        self.client.get_globals(key="org_name").all()
+
+        self.assertRequest(mock_request, "get", "globals", params={"key": "org_name"})
 
     def test_get_groups(self, mock_request):
         # check no params

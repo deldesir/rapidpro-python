@@ -145,13 +145,15 @@ class TembaClient(BaseCursorClient):
         """
         return self._get_query("fields", self._build_params(key=key), Field)
 
-    def get_flows(self, uuid=None):
+    def get_flows(self, uuid=None, type=None, archived=None):
         """
         Gets all matching flows
         :param uuid: flow UUID
+        :param str type: "message" or "voice"
+        :param archived: whether to include archived flows
         :return: flow query
         """
-        return self._get_query("flows", self._build_params(uuid=uuid), Flow)
+        return self._get_query("flows", self._build_params(uuid=uuid, type=type, archived=archived), Flow)
 
     def get_flow_starts(self, uuid=None):
         """
@@ -161,12 +163,13 @@ class TembaClient(BaseCursorClient):
         """
         return self._get_query("flow_starts", self._build_params(uuid=uuid), FlowStart)
 
-    def get_globals(self):
+    def get_globals(self, key=None):
         """
         Gets all globals
+        :param key: field key
         :return: global query
         """
-        return self._get_query("globals", {}, Global)
+        return self._get_query("globals", self._build_params(key=key), Global)
 
     def get_groups(self, uuid=None, name=None):
         """
@@ -293,7 +296,7 @@ class TembaClient(BaseCursorClient):
         :param int delivery_hour:
         :param str message:
         :param * flow: flow object, UUID or name
-        :return: the new campaign
+        :return: the new campaign event
         """
         payload = self._build_params(
             campaign=campaign,
