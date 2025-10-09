@@ -150,7 +150,7 @@ class TembaClient(BaseCursorClient):
         Gets all matching flows
         :param uuid: flow UUID
         :param str type: "message" or "voice"
-        :param archived: whether to include archived flows
+        :param bool archived: whether to include archived flows
         :return: flow query
         """
         return self._get_query("flows", self._build_params(uuid=uuid, type=type, archived=archived), Flow)
