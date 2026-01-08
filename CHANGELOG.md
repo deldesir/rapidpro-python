@@ -1,3 +1,7 @@
+v2.22.0 (2026-01-08)
+-------------------------
+ * Switch to use uv python package manager
+
 v2.21.0 (2025-10-09)
 -------------------------
  * Add support for message quick replies
